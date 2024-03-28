@@ -17,4 +17,5 @@ route.post("/message/send/:id", messsageController.sendMessageController);
 route.get("/message/:id", messsageController.getMessageController);
 
 route.get("/users", userController.getAllUsers);
+route.get("/profile", userController.getUser);
 module.exports = route;

@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 
-const getUser = async (user_id) => {
+const getUsers = async (user_id) => {
   try {
     const users = await User.find({ _id: { $ne: user_id } }).select(
       "-password"
@@ -11,4 +11,13 @@ const getUser = async (user_id) => {
   }
 };
 
-module.exports = { getUser };
+const getUser = async (user_id) => {
+  try {
+    const users = await User.find({ _id: user_id }).select("-password");
+    return users;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+module.exports = { getUsers, getUser };
