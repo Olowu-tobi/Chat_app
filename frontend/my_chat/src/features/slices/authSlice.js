@@ -34,41 +34,40 @@ export const registerThunk = createAsyncThunk(
     }
   }
 );
-export const logoutThunk = createAsyncThunk("/auth/logout", {
-    console.log('');
+export const logoutThunk = createAsyncThunk("/auth/logout", async () => {
+  console.log("");
 });
 
-
 const authSlice = createSlice({
-    name: "auth",
-    initialState :{
-        token:localStorage.getItem("token"),
-        isAuthenticated: !!localStorage.getItem("token"),
-        error: null
+  name: "auth",
+  initialState: {
+    token: localStorage.getItem("token"),
+    isAuthenticated: !!localStorage.getItem("token"),
+    error: null,
+  },
+  reducers: {
+    setError: (state, action) => {
+      state.error = action.payload.error;
     },
-    reducers: {
-        setError : (state, action) => {
-            state.error = action.payload.error;
-        }
-    },
-    extraReducers:(builder) =>{
-        builder
-        .addCase(loginThunk.fulfilled,(state, action) => {
-            state.token = action.payload.token;
-            state.isAuthenticated = true;
-            state.error = null;
-            localStorage.setItem('token', state.token);
-        })
-        .addCase(loginThunk.rejected,(state, action) => {
-            state.error = action.error.message;
-        })
-        .addCase(logoutThunk.fulfilled,(state, action) => {
-            state.isAuthenticated = false;
-            state.token = null;
-            localStorage.removeItem('token');
-            state.error = null
-        })
-    }
-})
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginThunk.fulfilled, (state, action) => {
+        state.token = action.payload.token;
+        state.isAuthenticated = true;
+        state.error = null;
+        localStorage.setItem("token", state.token);
+      })
+      .addCase(loginThunk.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(logoutThunk.fulfilled, (state, action) => {
+        state.isAuthenticated = false;
+        state.token = null;
+        localStorage.removeItem("token");
+        state.error = null;
+      });
+  },
+});
 
 export default authSlice.reducer;
