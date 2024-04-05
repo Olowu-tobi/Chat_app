@@ -1,6 +1,9 @@
-import React from "react";
+// eslint-disable-next-line react/prop-types
+function SearchInput({ setSearchQuery }) {
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
-function SearchInput() {
   return (
     <div>
       <form className="flex items-center gap-2">
@@ -8,6 +11,7 @@ function SearchInput() {
           type="text"
           className="input input-bordered rounded-full"
           placeholder="Search"
+          onChange={handleInputChange}
         />
         <button
           type="submit"

@@ -1,17 +1,31 @@
-function Message() {
+/* eslint-disable react/prop-types */
+import { useSetUser, useUserState } from "../../features/hooks/useUser";
+import { extractTime } from "../../utils/getTime";
+
+function Message({ message }) {
+  const { profile } = useUserState();
+  const authUser = profile.user[0];
+  const { selectedUser } = useSetUser();
+  const senderId = message.senderId == authUser._id;
+  const chatClass = senderId ? "chat-end" : "chat-start";
+  const profilePic = senderId
+    ? authUser.profile_image
+    : selectedUser.profile_image;
+  const bgColor = senderId ? "bg-blue-500" : "";
+  const formattedDate = extractTime(message.createdAt);
+
   return (
-    <div className="chat chat-end">
+    <div className={`chat ${chatClass}`}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-          <img
-            src="https://avatar.iran.liara.run/public/job/police/male"
-            alt=""
-          />
+          <img src={profilePic} alt="" />
         </div>
       </div>
-      <div className="chat-bubble text-white bg-blue-500">Hi! What is up</div>
+      <div className={`chat-bubble text-white ${bgColor}`}>
+        {message.message}
+      </div>
       <div className="chat-footer opacity-50 text-xs flex gap-1 items-center">
-        12:42
+        {formattedDate}
       </div>
     </div>
   );

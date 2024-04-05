@@ -1,12 +1,48 @@
+import { useFormik } from "formik";
+import { useSetUser } from "../../features/hooks/useUser";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import useSendMessage from "../../features/hooks/useSendMessage";
+
 function MessageInput() {
+  const { selectedUser } = useSetUser();
+
+  const { sendMessage } = useSendMessage();
+
+  const formik = useFormik({
+    initialValues: {
+      message: "",
+    },
+    onSubmit: (values) => {
+      const { message } = values;
+      if (!message) return;
+      if (selectedUser) {
+        sendMessage({ message: values.message, receiverId: selectedUser._id })
+          .then((res) => {
+            toast.success(res);
+            formik.resetForm();
+          })
+          .catch((err) => {
+            toast.error(err.response.message);
+          });
+      } else {
+        toast.error("Please select a user first!");
+      }
+    },
+  });
+
   return (
     <div>
-      <form className="px-4 my-3">
+      <form className="px-4 my-3" onSubmit={formik.handleSubmit}>
         <div className="w-full relative">
           <input
             type="text"
             className="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 text-white border-gray-600"
             placeholder="Send a message"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.message}
+            name="message"
           />
           <button
             type="submit"

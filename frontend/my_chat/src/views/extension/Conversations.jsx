@@ -1,10 +1,10 @@
 import React from "react";
 import Conversation from "./Conversation";
 
-function Conversations() {
+function Conversations({ searchQuery }) {
   return (
     <div className="py-2 flex-col flex overflow-auto">
-      <Conversation />
+      <Conversation searchQuery={searchQuery} />
     </div>
   );
 }

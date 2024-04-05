@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-catch */
-import { fetchUserData, getUsers } from "../slices/userSlice";
+import { fetchUserData, getUsers, setUser } from "../slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export const useUser = () => {
@@ -24,6 +24,14 @@ export const useUsers = () => {
     }
   };
   return users;
+};
+export const useSetUser = () => {
+  const dispatch = useDispatch();
+  const selectedUser = useSelector((state) => state.user.selectedUser);
+  const setUsers = (user) => {
+    dispatch(setUser(user));
+  };
+  return { selectedUser, setUsers };
 };
 
 export const useUserState = () => {

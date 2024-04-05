@@ -99,6 +99,17 @@ class ApiService {
 
     return this.makeRequest("get", endpoint, options);
   }
+
+  async postWithParams(endpoint, payload, params = {}) {
+    const token = this.getDecodedToken("token");
+    const options = {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      params,
+      data: payload ? payload : "",
+    };
+
+    return this.makeRequest("post", endpoint, options);
+  }
 }
 
 export default ApiService;

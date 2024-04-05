@@ -1,20 +1,39 @@
+/* eslint-disable react/prop-types */
 import React from "react";
-import { useUserState } from "../../features/hooks/useUser";
+import { useSetUser, useUserState } from "../../features/hooks/useUser";
 
-function Conversation() {
+function Conversation({ searchQuery }) {
   const { users } = useUserState();
+  const { selectedUser, setUsers } = useSetUser();
+  const handleUser = (user) => {
+    setUsers(user);
+  };
 
-  // Check if users is null or undefined before rendering
   if (!users) {
-    return <div>Loading...</div>; // You can show a loading indicator or handle the loading state in another way
+    return <div>Loading...</div>;
   }
-  const idx = users.users.length - 1;
+
+  const filteredUsers = users.users.filter(
+    (user) =>
+      user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.last_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const sortedUsers = filteredUsers.sort((a, b) => {
+    return a.first_name.localeCompare(b.first_name);
+  });
+  const idx = sortedUsers.length - 1;
 
   return (
     <>
-      {users.users.map((user, i) => (
+      {sortedUsers.map((user, i) => (
         <div key={i}>
-          <div className="flex gap-2 items-center rounded p-2 py-1 cursor-pointer">
+          <div
+            className={`flex gap-2 items-center rounded p-2 py-1 cursor-pointer ${
+              user == selectedUser && "bg-sky-500"
+            }`}
+            onClick={() => handleUser(user)}
+          >
             <div className="avatar online">
               <div className="w-12 rounded-full">
                 <img src={user.profile_image} alt="" />

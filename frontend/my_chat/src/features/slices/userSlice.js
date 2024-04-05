@@ -30,10 +30,11 @@ const userSlice = createSlice({
     profile: null,
     users: null,
     error: null,
+    selectedUser: null,
   },
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload;
+      state.selectedUser = action.payload;
     },
   },
   extraReducers: (builder) => {
