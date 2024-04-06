@@ -1,5 +1,6 @@
 const { response } = require("express");
 const messageService = require("../services/messageService");
+const { getReceiverSocketId, io } = require("../socket/socket");
 
 const sendMessageController = async (req, res) => {
   const { message } = req.body;
@@ -11,6 +12,10 @@ const sendMessageController = async (req, res) => {
       receiverId,
       message
     );
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", messageResp);
+    }
     res.status(200).json(messageResp);
   } catch (error) {
     res.status(500).json(error);

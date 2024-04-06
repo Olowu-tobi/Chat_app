@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 import { useSetUser, useUserState } from "../../features/hooks/useUser";
+import { useSocketContext } from "../../features/socketContext/socketContext";
 
 function Conversation({ searchQuery }) {
   const { users } = useUserState();
@@ -9,9 +9,13 @@ function Conversation({ searchQuery }) {
     setUsers(user);
   };
 
+  const { onlineUsers } = useSocketContext();
+
   if (!users) {
     return <div>Loading...</div>;
   }
+
+  // const user = profile.user[0];
 
   const filteredUsers = users.users.filter(
     (user) =>
@@ -22,35 +26,39 @@ function Conversation({ searchQuery }) {
   const sortedUsers = filteredUsers.sort((a, b) => {
     return a.first_name.localeCompare(b.first_name);
   });
+
   const idx = sortedUsers.length - 1;
 
   return (
     <>
-      {sortedUsers.map((user, i) => (
-        <div key={i}>
-          <div
-            className={`flex gap-2 items-center rounded p-2 py-1 cursor-pointer ${
-              user == selectedUser && "bg-sky-500"
-            }`}
-            onClick={() => handleUser(user)}
-          >
-            <div className="avatar online">
-              <div className="w-12 rounded-full">
-                <img src={user.profile_image} alt="" />
+      {sortedUsers.map((user, i) => {
+        const isOnline = onlineUsers.includes(user._id);
+        return (
+          <div key={i}>
+            <div
+              className={`flex gap-2 items-center rounded p-2 py-1 cursor-pointer ${
+                user == selectedUser && "bg-sky-500"
+              }`}
+              onClick={() => handleUser(user)}
+            >
+              <div className={`avatar ${isOnline ? "online" : ""}`}>
+                <div className="w-12 rounded-full">
+                  <img src={user.profile_image} alt="" />
+                </div>
+              </div>
+              <div className="flex flex-col flex-1">
+                <div className="flex gap-3 justify-between">
+                  <p className="font-bold text-gray-200">
+                    {user.first_name} {user.last_name}
+                  </p>
+                  <span className="text-xl">🎃</span>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col flex-1">
-              <div className="flex gap-3 justify-between">
-                <p className="font-bold text-gray-200">
-                  {user.first_name} {user.last_name}
-                </p>
-                <span className="text-xl">🎃</span>
-              </div>
-            </div>
+            {i !== idx && <div className="divider my-0 py-0 h-1"></div>}
           </div>
-          {i != idx && <div className="divider my-0 py-0 h-1"></div>}
-        </div>
-      ))}
+        );
+      })}
     </>
   );
 }

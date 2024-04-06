@@ -13,15 +13,15 @@ function Message({ message }) {
     : selectedUser.profile_image;
   const bgColor = senderId ? "bg-blue-500" : "";
   const formattedDate = extractTime(message.createdAt);
-
+  const shakeClass = message.shouldShake ? "shake" : "";
   return (
-    <div className={`chat ${chatClass}`}>
+    <div className={`chat ${chatClass} `}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
           <img src={profilePic} alt="" />
         </div>
       </div>
-      <div className={`chat-bubble text-white ${bgColor}`}>
+      <div className={`chat-bubble text-white ${bgColor}  ${shakeClass}`}>
         {message.message}
       </div>
       <div className="chat-footer opacity-50 text-xs flex gap-1 items-center">

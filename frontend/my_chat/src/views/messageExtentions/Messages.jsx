@@ -5,8 +5,9 @@ import {
   useConversationState,
 } from "../../features/hooks/useConversation";
 import { useSetUser } from "../../features/hooks/useUser";
-import { useLoading } from "../../features/hooks/useLoading";
 import MessageSkelenton from "./MessageSkelenton";
+import useListenMessages from "../../features/hooks/useListenMessages";
+// import useListenMessages from "../../features/hooks/useListenMessages";
 
 function Messages() {
   const { getConversation } = useConversation();
@@ -14,6 +15,8 @@ function Messages() {
   const { selectedUser } = useSetUser();
   const [loading, setLoading] = useState(false);
   const lastMessage = useRef();
+
+  useListenMessages();
 
   useEffect(() => {
     const fetching = async () => {
