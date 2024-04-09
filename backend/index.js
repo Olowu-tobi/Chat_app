@@ -3,8 +3,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const route = require("./routes/route");
-const { app, server } = require("./socket/socket");
-
+// const { app, server } = require("./socket/socket");
+const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
@@ -28,7 +28,7 @@ mongoose
   })
   .then(() => {
     console.log("MongoDB connected");
-    server.listen(PORT, () => {
+    app.listen(PORT, () => {
       console.log(`server listening on port ${PORT}`);
     });
   })
