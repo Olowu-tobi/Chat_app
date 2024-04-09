@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
   const user = profile?.user[0];
   useEffect(() => {
     if (user) {
-      const socket = io("https://chatapp-lemon-mu.vercel.app", {
+      const socket = io("https://chatapp-lemon-mu.vercel.app/", {
         query: {
           userId: user._id,
         },
