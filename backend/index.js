@@ -16,11 +16,11 @@ app.use(
     extended: true,
   })
 );
+
+// app.use(route);
 app.use("/", (req, res) => {
   res.sendFile("server is running");
 });
-app.use(route);
-
 mongoose
   .connect(mongodbUrl, {
     useNewUrlParser: true,
