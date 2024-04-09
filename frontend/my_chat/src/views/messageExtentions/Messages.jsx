@@ -54,14 +54,18 @@ function Messages() {
     <div className="flex-1 px-4 overflow-auto">
       {!loading &&
         conversation.length > 0 &&
-        conversation.map((message, index) => (
-          <div
-            key={message._id}
-            ref={index === conversation.length - 1 ? lastMessage : null}
-          >
-            <Message message={message} />
-          </div>
-        ))}
+        conversation.map(
+          (message, index) =>
+            (message.receiverId === selectedUser._id ||
+              message.senderId === selectedUser._id) && (
+              <div
+                key={message._id}
+                ref={index === conversation.length - 1 ? lastMessage : null}
+              >
+                <Message message={message} />
+              </div>
+            )
+        )}
       {!loading && conversation.length === 0 && (
         <p className="text-center">Send a message to start the conversation</p>
       )}
