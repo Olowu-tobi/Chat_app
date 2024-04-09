@@ -6,7 +6,12 @@ const { Server } = socketIo;
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "https://chat-app-client-ruby.vercel.app",
+    methods: ["GET", "POST"],
+  },
+});
 
 const getReceiverSocketId = (receiverId) => {
   return userSocketMap[receiverId];
