@@ -3,8 +3,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const route = require("./routes/route");
-// const { app, server } = require("./socket/socket");
-const app = express();
+const { app, server } = require("./socket/socket");
+
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
@@ -16,11 +16,8 @@ app.use(
     extended: true,
   })
 );
+app.use(route);
 
-// app.use(route);
-app.use("/", (req, res) => {
-  res.sendFile("server is running");
-});
 mongoose
   .connect(mongodbUrl, {
     useNewUrlParser: true,
@@ -28,7 +25,7 @@ mongoose
   })
   .then(() => {
     console.log("MongoDB connected");
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`server listening on port ${PORT}`);
     });
   })
