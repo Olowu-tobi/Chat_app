@@ -16,6 +16,9 @@ app.use(
     extended: true,
   })
 );
+app.use("/", (req, res) => {
+  res.sendFile("server is running");
+});
 app.use(route);
 
 mongoose
