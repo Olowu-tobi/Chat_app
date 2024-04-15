@@ -7,9 +7,11 @@ const { authChecker } = require("../middleware/authMiddleware");
 const authController = require("../controllers/authController");
 const messsageController = require("../controllers/messageController");
 const userController = require("../controllers/userController");
+const homeController = require("../controllers/homeController");
 
 route.post("/auth/login", authController.loginUser);
 route.post("/auth/register", authController.registerUser);
+route.get("/", homeController.home);
 
 route.use(authChecker);
 
