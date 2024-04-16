@@ -11,7 +11,7 @@ const homeController = require("../controllers/homeController");
 
 route.post("/auth/login", authController.loginUser);
 route.post("/auth/register", authController.registerUser);
-route.get("/", homeController.home);
+// route.get("/", homeController.home);
 
 route.use(authChecker);
 
