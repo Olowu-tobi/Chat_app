@@ -13,7 +13,7 @@ route.post("/auth/login", authController.loginUser);
 route.post("/auth/register", authController.registerUser);
 // route.get("/", homeController.home);
 
-route.use(authChecker);
+// route.use(authChecker);
 
 route.post("/message/send/:id", messsageController.sendMessageController);
 route.get("/message/:id", messsageController.getMessageController);
