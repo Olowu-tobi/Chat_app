@@ -13,11 +13,13 @@ route.post("/auth/login", authController.loginUser);
 route.post("/auth/register", authController.registerUser);
 // route.get("/", homeController.home);
 
-route.use(authChecker);
+route.post(
+  "/message/send/:id",
+  authChecker,
+  messsageController.sendMessageController
+);
+route.get("/message/:id", authChecker, messsageController.getMessageController);
 
-route.post("/message/send/:id", messsageController.sendMessageController);
-route.get("/message/:id", messsageController.getMessageController);
-
-route.get("/users", userController.getAllUsers);
-route.get("/profile", userController.getUser);
+route.get("/users", authChecker, userController.getAllUsers);
+route.get("/profile", authChecker, userController.getUser);
 module.exports = route;
