@@ -20,7 +20,6 @@ export const SocketContextProvider = ({ children }) => {
           userId: user._id,
         },
       });
-      console.log(socket);
       setSocket(socket);
 
       socket.on("onlineUsers", (user) => {
