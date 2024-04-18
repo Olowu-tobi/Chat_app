@@ -19,7 +19,6 @@ function Login() {
     }),
     onSubmit: async (values) => {
       try {
-        console.log(values);
         await login(values);
       } catch (error) {
         console.log(error);
