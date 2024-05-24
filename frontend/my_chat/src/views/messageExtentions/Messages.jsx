@@ -5,9 +5,8 @@ import {
   useConversationState,
 } from "../../features/hooks/useConversation";
 import { useSetUser } from "../../features/hooks/useUser";
-import MessageSkelenton from "./MessageSkelenton";
+// import MessageSkeleton from "./MessageSkeleton";
 import useListenMessages from "../../features/hooks/useListenMessages";
-// import useListenMessages from "../../features/hooks/useListenMessages";
 
 function Messages() {
   const { getConversation } = useConversation();
@@ -45,7 +44,8 @@ function Messages() {
   if (!conversation) {
     return (
       <div className="flex-1 px-4 overflow-auto">
-        {loading && [...Array(3)].map((_, i) => <MessageSkelenton key={i} />)}
+        {/* {loading && [...Array(3)].map((_, i) => <MessageSkeleton key={i} />)} */}
+        loading
       </div>
     );
   }
@@ -54,18 +54,14 @@ function Messages() {
     <div className="flex-1 px-4 overflow-auto">
       {!loading &&
         conversation.length > 0 &&
-        conversation.map(
-          (message, index) =>
-            (message.receiverId === selectedUser._id ||
-              message.senderId === selectedUser._id) && (
-              <div
-                key={message._id}
-                ref={index === conversation.length - 1 ? lastMessage : null}
-              >
-                <Message message={message} />
-              </div>
-            )
-        )}
+        conversation.map((message, index) => (
+          <div
+            key={message._id}
+            ref={index === conversation.length - 1 ? lastMessage : null}
+          >
+            <Message message={message} />
+          </div>
+        ))}
       {!loading && conversation.length === 0 && (
         <p className="text-center">Send a message to start the conversation</p>
       )}
